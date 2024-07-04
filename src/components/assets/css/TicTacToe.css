@@ -1,0 +1,26 @@
+.game__table {
+  width: 300px;
+  height: 300px;
+  border-collapse: collapse;
+  margin: 20px auto;
+}
+
+.game__table td {
+  width: 100px;
+  height: 100px;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 2em;
+  border: 1px solid #000;
+  cursor: pointer;
+}
+
+.game__table td:hover {
+  background-color: #f0f0f0;
+}
+
+.cell button {
+  border: none;
+  background-color: transparent;
+  font-size: 25px;
+}
