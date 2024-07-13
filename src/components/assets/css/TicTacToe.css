@@ -1,6 +1,6 @@
 .game__table {
-  width: 300px;
-  height: 300px;
+  width: 500px;
+  height: 500px;
   border-collapse: collapse;
   margin: 20px auto;
 }
@@ -15,8 +15,8 @@
 }
 
 .game__table td {
-  width: 100px;
-  height: 100px;
+  width: 33.33%;
+  height: 33.33%;
   text-align: center;
   vertical-align: middle;
   font-size: 2em;
@@ -44,5 +44,7 @@
   border: 1px solid #212121;
   padding: 10px;
   border-radius: 15px;
-  width: 300px;
+  font-size: 20px;
+  width: 500px;
+  cursor: pointer;
 }

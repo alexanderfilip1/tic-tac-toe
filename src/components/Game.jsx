@@ -2,46 +2,77 @@ import React, { useEffect, useState } from "react";
 import "./assets/css/TicTacToe.css";
 
 export default function Game() {
-  const gameTable = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  const gameTable = [0, 1, 2, 3, 4, 5, 6, 7, 8];
   const [moves, setMoves] = useState(Array(gameTable.length).fill(""));
   const [currentPlayer, setCurrentPlayer] = useState("X");
+  const [winner, setWinner] = useState(null);
+  const [isDraw, setIsDraw] = useState(false);
+
+  const winningCombinations = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+
+  function checkWinner(newMoves) {
+    for (let combination of winningCombinations) {
+      const [a, b, c] = combination;
+      if (
+        newMoves[a] &&
+        newMoves[a] === newMoves[b] &&
+        newMoves[a] === newMoves[c]
+      ) {
+        return newMoves[a];
+      }
+    }
+    return null;
+  }
 
   const handleClick = (index) => {
-    const newMoves = [...moves];
-
-    if (newMoves[index] === "") {
-      newMoves[index] = currentPlayer;
-      let storedMoves = JSON.parse(localStorage.getItem("moves")) || [];
-      storedMoves.push({ index: index, player: currentPlayer });
-      localStorage.setItem("moves", JSON.stringify(storedMoves));
-
-      setCurrentPlayer(currentPlayer === "X" ? "O" : "X");
-
-      console.log("Last move:", newMoves[index]);
-
-      setMoves(newMoves);
+    if (moves[index] !== "" || winner || isDraw) {
+      return;
     }
 
-    const whoIsWinner = () => {
-      const winningTable = [
-        1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 3, 9, 3, 5, 7, 1, 4, 7, 2, 5, 8, 3, 6, 9,
-      ];
-    };
+    const newMoves = [...moves];
+    newMoves[index] = currentPlayer;
+
+    let storedMoves = JSON.parse(localStorage.getItem("moves")) || [];
+    storedMoves.push({ index: index, player: currentPlayer });
+    localStorage.setItem("moves", JSON.stringify(storedMoves));
+
+    setMoves(newMoves);
+    const gameWinner = checkWinner(newMoves);
+
+    if (gameWinner) {
+      setWinner(gameWinner);
+    } else if (!newMoves.includes("")) {
+      setIsDraw(true);
+    } else {
+      setCurrentPlayer(currentPlayer === "X" ? "O" : "X");
+    }
   };
 
   useEffect(() => {
     const savedMoves = JSON.parse(localStorage.getItem("moves"));
     if (savedMoves && savedMoves.length > 0) {
-      const newMoves = [...moves];
+      const newMoves = Array(gameTable.length).fill("");
       savedMoves.forEach((move) => {
         newMoves[move.index] = move.player;
       });
       setMoves(newMoves);
-      setCurrentPlayer(
-        savedMoves[savedMoves.length - 1].player === "X" ? "O" : "X"
-      );
-    } else {
-      return;
+      const lastMove = savedMoves[savedMoves.length - 1];
+      setCurrentPlayer(lastMove.player === "X" ? "O" : "X");
+      const gameWinner = checkWinner(newMoves);
+      if (gameWinner) {
+        setWinner(gameWinner);
+      } else if (!newMoves.includes("")) {
+        setIsDraw(true);
+      }
     }
   }, []);
 
@@ -50,7 +81,11 @@ export default function Game() {
       <main className="main">
         <section className="main__gameSection">
           <h1>
-            Este rândul lui <b>{currentPlayer}</b>
+            {winner
+              ? `Winner: ${winner}`
+              : isDraw
+              ? "It's a draw!"
+              : `Current Player: ${currentPlayer}`}
           </h1>
           <table className="game__table">
             <tbody>
@@ -83,6 +118,8 @@ export default function Game() {
               localStorage.removeItem("moves");
               setMoves(Array(gameTable.length).fill(""));
               setCurrentPlayer("X");
+              setWinner(null);
+              setIsDraw(false);
             }}
           >
             Restart Game
