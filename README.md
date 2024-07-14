@@ -1,70 +1,46 @@
-# Getting Started with Tic-Tac-Toe Game
+## Tic Tac Toe Game
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a React-based Tic Tac Toe game allowing two players to input their names and compete. The game state is saved in the browser's local storage, ensuring game continuity even if the page is reloaded. The game interface is user-friendly and provides clear indications of the current player, the winner, or if the game ends in a draw.
+# Book Best Seller App on React
 
-## Available Scripts
+In this application, I created a React component-based structure to display "Amazon Best Sellers". I defined a Books component that holds an array of book data, including author, title, image, and ID. This component maps over the book data and renders a list of Book components, each displaying the book's image, title, author, and a numbered ranking.
 
-In the project directory, you can run:
+![image](https://github.com/user-attachments/assets/7a2a6461-a3bc-4b03-b68d-a072204e9f36)
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Features
 
-### `npm test`
+- **Player Names Input:** Allows players to input and display their names.
+- **Persistent Game State:** The game's state is saved to local storage to maintain progress after a page refresh.
+- **Winner Detection:** Checks and announces the winner once a winning combination is achieved.
+- **Draw Detection:** Recognizes and announces when the game ends in a draw.
+- **Restart and Change Players:** Options to restart the game with the same players or change the players' names and start a new game.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Game Instructions
 
-### `npm run build`
+    1. Enter Player Names:
+        - Enter names for Player 1 and Player 2 in the provided input fields.
+        - Click "Start Game" to begin.
+        
+    2. Play the Game:
+        - Players take turns clicking on the game board cells to mark their moves (Player 1 is "X" and Player 2 is "O").
+        - The game announces the current player, the winner, or if the game ends in a draw.
+    
+    3. Restart or Change Players:
+        - Click "Restart Game" to reset the board and play again with the same players.
+        - If there is a winner or a draw, the option to "Change Players" will appear to start a new game with different players.
+## Demo
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+https://tictactoe.alexanderfilip.dev
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Installation
 
-### `npm run eject`
+Install Tic Tac Toe Game with npm
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```bash
+  npm install
+  npm start
+```
+    
