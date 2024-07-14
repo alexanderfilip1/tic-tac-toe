@@ -36,6 +36,10 @@
 
 .main__gameSection {
   text-align: center;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 
 .btn {
@@ -56,6 +60,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  justify-content: center;
 }
 
 .name__inputSection {
@@ -81,4 +86,17 @@
   background-color: #fbab7e;
   background-image: linear-gradient(62deg, #fbab7e 0%, #f7ce68 100%);
   border: 1px solid #212121;
+}
+
+@media (max-width: 320px) {
+  .game__table,
+  .btn {
+    width: 100%;
+  }
+}
+@media (max-width: 617px) {
+  .game__table,
+  .btn {
+    width: 100%;
+  }
 }
