@@ -38,7 +38,7 @@
   text-align: center;
 }
 
-.restartBtn {
+.btn {
   background-color: #fbab7e;
   background-image: linear-gradient(62deg, #fbab7e 0%, #f7ce68 100%);
   border: 1px solid #212121;
@@ -47,4 +47,38 @@
   font-size: 20px;
   width: 500px;
   cursor: pointer;
+}
+.btn:hover {
+  background-color: red;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.name__inputSection {
+  text-align: center;
+  max-width: 400px;
+}
+
+.input {
+  border: 1px solid #212121;
+  border-radius: 10px;
+  padding: 5px;
+  margin: 5px;
+}
+.name__inputs {
+  display: flex;
+  flex-direction: column;
+}
+
+.setNameBtn {
+  width: 100%;
+  padding: 5px;
+  border-radius: 10px;
+  background-color: #fbab7e;
+  background-image: linear-gradient(62deg, #fbab7e 0%, #f7ce68 100%);
+  border: 1px solid #212121;
 }
