@@ -7,6 +7,9 @@ export default function Game() {
   const [currentPlayer, setCurrentPlayer] = useState("X");
   const [winner, setWinner] = useState(null);
   const [isDraw, setIsDraw] = useState(false);
+  const [player1, setPlayer1] = useState("");
+  const [player2, setPlayer2] = useState("");
+  const [isGameStarted, setIsGameStarted] = useState(false);
 
   const winningCombinations = [
     [0, 1, 2],
@@ -41,90 +44,167 @@ export default function Game() {
     const newMoves = [...moves];
     newMoves[index] = currentPlayer;
 
-    let storedMoves = JSON.parse(localStorage.getItem("moves")) || [];
-    storedMoves.push({ index: index, player: currentPlayer });
-    localStorage.setItem("moves", JSON.stringify(storedMoves));
+    const storedState = {
+      moves: newMoves,
+      currentPlayer: currentPlayer === "X" ? "O" : "X",
+      winner: checkWinner(newMoves),
+      isDraw: !newMoves.includes(""),
+      player1,
+      player2,
+      isGameStarted: true,
+    };
+
+    if (storedState.winner) {
+      storedState.winner = currentPlayer;
+    }
+
+    localStorage.setItem("gameState", JSON.stringify(storedState));
 
     setMoves(newMoves);
-    const gameWinner = checkWinner(newMoves);
-
-    if (gameWinner) {
-      setWinner(gameWinner);
-    } else if (!newMoves.includes("")) {
-      setIsDraw(true);
-    } else {
-      setCurrentPlayer(currentPlayer === "X" ? "O" : "X");
-    }
+    setCurrentPlayer(storedState.currentPlayer);
+    setWinner(storedState.winner);
+    setIsDraw(storedState.isDraw);
   };
 
   useEffect(() => {
-    const savedMoves = JSON.parse(localStorage.getItem("moves"));
-    if (savedMoves && savedMoves.length > 0) {
-      const newMoves = Array(gameTable.length).fill("");
-      savedMoves.forEach((move) => {
-        newMoves[move.index] = move.player;
-      });
-      setMoves(newMoves);
-      const lastMove = savedMoves[savedMoves.length - 1];
-      setCurrentPlayer(lastMove.player === "X" ? "O" : "X");
-      const gameWinner = checkWinner(newMoves);
-      if (gameWinner) {
-        setWinner(gameWinner);
-      } else if (!newMoves.includes("")) {
-        setIsDraw(true);
-      }
+    const savedState = JSON.parse(localStorage.getItem("gameState"));
+    if (savedState) {
+      setMoves(savedState.moves);
+      setCurrentPlayer(savedState.currentPlayer);
+      setWinner(savedState.winner);
+      setIsDraw(savedState.isDraw);
+      setPlayer1(savedState.player1);
+      setPlayer2(savedState.player2);
+      setIsGameStarted(savedState.isGameStarted);
     }
   }, []);
+
+  const handleStartGame = () => {
+    if (player1 && player2) {
+      const initialState = {
+        moves: Array(gameTable.length).fill(""),
+        currentPlayer: "X",
+        winner: null,
+        isDraw: false,
+        player1,
+        player2,
+        isGameStarted: true,
+      };
+      localStorage.setItem("gameState", JSON.stringify(initialState));
+      setIsGameStarted(true);
+    }
+  };
+
+  const handleRestartGame = () => {
+    const initialState = {
+      moves: Array(gameTable.length).fill(""),
+      currentPlayer: "X",
+      winner: null,
+      isDraw: false,
+      player1,
+      player2,
+      isGameStarted: true,
+    };
+    localStorage.setItem("gameState", JSON.stringify(initialState));
+    setMoves(Array(gameTable.length).fill(""));
+    setCurrentPlayer("X");
+    setWinner(null);
+    setIsDraw(false);
+    setIsGameStarted(true);
+  };
+
+  const handleChangePlayers = () => {
+    setMoves(Array(gameTable.length).fill(""));
+    setCurrentPlayer("X");
+    setWinner(null);
+    setIsDraw(false);
+    setIsGameStarted(false);
+    localStorage.removeItem("gameState");
+  };
 
   return (
     <>
       <main className="main">
-        <section className="main__gameSection">
-          <h1>
-            {winner
-              ? `Winner: ${winner}`
-              : isDraw
-              ? "It's a draw!"
-              : `Current Player: ${currentPlayer}`}
-          </h1>
-          <table className="game__table">
-            <tbody>
-              {gameTable.map((num, index) => {
-                if (index % 3 === 0) {
-                  const rowItems = gameTable.slice(index, index + 3);
-                  return (
-                    <tr key={index}>
-                      {rowItems.map((item, subIndex) => (
-                        <td
-                          className="cell"
-                          key={index + subIndex}
-                          value={item}
-                          onClick={() => handleClick(index + subIndex)}
-                        >
-                          <button>{moves[index + subIndex]}</button>
-                        </td>
-                      ))}
-                    </tr>
-                  );
-                }
-                return null;
-              })}
-            </tbody>
-          </table>
-          <button
-            type="button"
-            className="restartBtn"
-            onClick={() => {
-              localStorage.removeItem("moves");
-              setMoves(Array(gameTable.length).fill(""));
-              setCurrentPlayer("X");
-              setWinner(null);
-              setIsDraw(false);
-            }}
-          >
-            Restart Game
-          </button>
-        </section>
+        {!isGameStarted ? (
+          <section className="name__inputSection">
+            <h1>Enter Player Names</h1>
+            <div className="name__inputs">
+              <label htmlFor="player1">
+                Player1
+                <input
+                  type="text"
+                  id="player1"
+                  className="input"
+                  value={player1}
+                  onChange={(e) => setPlayer1(e.target.value)}
+                />
+              </label>
+              <label htmlFor="player2">
+                Player2
+                <input
+                  type="text"
+                  id="player2"
+                  className="input"
+                  value={player2}
+                  onChange={(e) => setPlayer2(e.target.value)}
+                />
+              </label>
+            </div>
+            <button onClick={handleStartGame} className="setNameBtn">
+              Start Game
+            </button>
+          </section>
+        ) : (
+          <section className="main__gameSection">
+            <h1>
+              {winner
+                ? `Winner: ${winner === "X" ? player1 : player2}`
+                : isDraw
+                ? "It's a draw!"
+                : `Current Player: ${
+                    currentPlayer === "X" ? player1 : player2
+                  }`}
+            </h1>
+            <table className="game__table">
+              <tbody>
+                {gameTable.map((num, index) => {
+                  if (index % 3 === 0) {
+                    const rowItems = gameTable.slice(index, index + 3);
+                    return (
+                      <tr key={index}>
+                        {rowItems.map((item, subIndex) => (
+                          <td
+                            className="cell"
+                            key={index + subIndex}
+                            value={item}
+                            onClick={() => handleClick(index + subIndex)}
+                          >
+                            <button>{moves[index + subIndex]}</button>
+                          </td>
+                        ))}
+                      </tr>
+                    );
+                  }
+                  return null;
+                })}
+              </tbody>
+            </table>
+            <div className="buttons">
+              <button type="button" className="btn" onClick={handleRestartGame}>
+                Restart Game
+              </button>
+              {(winner || isDraw) && (
+                <button
+                  type="button"
+                  className="btn"
+                  onClick={handleChangePlayers}
+                >
+                  Change Players
+                </button>
+              )}
+            </div>
+          </section>
+        )}
       </main>
     </>
   );
