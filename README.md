@@ -1,9 +1,6 @@
 ## Tic Tac Toe Game
 
 This is a React-based Tic Tac Toe game allowing two players to input their names and compete. The game state is saved in the browser's local storage, ensuring game continuity even if the page is reloaded. The game interface is user-friendly and provides clear indications of the current player, the winner, or if the game ends in a draw.
-# Book Best Seller App on React
-
-In this application, I created a React component-based structure to display "Amazon Best Sellers". I defined a Books component that holds an array of book data, including author, title, image, and ID. This component maps over the book data and renders a list of Book components, each displaying the book's image, title, author, and a numbered ranking.
 
 ![image](https://github.com/user-attachments/assets/7a2a6461-a3bc-4b03-b68d-a072204e9f36)
 
